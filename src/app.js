@@ -1,16 +1,27 @@
 const express = require("express");
 
 const app = express();
-const { adminAuth } = require("./middlewares/auth");
 
-app.use("/admin", adminAuth);
-
-app.get("/admin/getAllData", (req, res) => {
-  res.send("All data sent successfully");
+app.use("/", (err, req, res, next) => {
+  if (err) {
+    res.status(500).send("Something went wrong!");
+  }
 });
 
-app.delete("/admin/delete", (req, res) => {
-  res.send("Data is deleted");
+app.get("/getAllData", (req, res) => {
+  //try {
+  //Logic
+  throw new Error("sdfg");
+  res.send("User data sent!");
+  // } catch (err) {
+  //   res.status(500).send("Something went wrong!");
+  // }
+});
+
+app.use("/", (err, req, res, next) => {
+  if (err) {
+    res.status(500).send("Something went wrong!");
+  }
 });
 
 app.listen(3000, () => {
