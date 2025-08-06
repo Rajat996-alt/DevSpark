@@ -17,6 +17,41 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+// Feed API - GET /feed - to get all the users from the database
+app.get("/feed", async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.send(users);
+  } catch (err) {
+    res.status(404).send("Something went wrong");
+  }
+});
+
+app.delete("/user", async (req, res) => {
+  const userId = req.body.userId;
+  try {
+    const user = await User.findByIdAndDelete({ _id: userId });
+    //const user = await User.findByIdAndDelete(userId);
+    res.send("User deleted successfully");
+  } catch (err) {
+    res.status(404).send("Something went wrong!");
+  }
+});
+
+app.patch("/user", async (req, res) => {
+  const userId = req.body.userId;
+  const data = req.body;
+  try {
+    const user = await User.findByIdAndUpdate({ _id: userId }, data, {
+      returnDocument: "after",
+    });
+    console.log(user);
+    res.send("User updated successfully!");
+  } catch (err) {
+    res.status(404).send("Something went wrong!");
+  }
+});
+
 connectDB()
   .then(() => {
     console.log("Database connection established...");
