@@ -2,18 +2,54 @@ const express = require("express");
 const connectDB = require("./config/database");
 const User = require("./models/user");
 const app = express();
+const { validateSignupData } = require("./utils/validate");
+const bcrypt = require("bcrypt");
 
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
-  //Creating a new instance of the User model
-  const user = new User(req.body);
-
   try {
+    //Validate the data
+    validateSignupData(req);
+
+    //Encrypt the password
+    const { firstName, lastName, emailId, password } = req.body;
+
+    const pswrdHash = await bcrypt.hash(password, 10);
+    console.log(pswrdHash);
+
+    //Creating a new instance of the User model
+    const user = new User({
+      firstName,
+      lastName,
+      emailId,
+      password: pswrdHash,
+    });
+
     await user.save();
     res.send("User added successfully...");
   } catch (err) {
-    res.send(err.message);
+    res.status(400).send("ERROR : " + err.message);
+  }
+});
+
+app.post("/login", async (req, res) => {
+  try {
+    const { emailId, password } = req.body;
+
+    const user = await User.findOne({ emailId: emailId });
+    if (!user) {
+      throw new Error("emal");
+    }
+
+    const isPassword = await bcrypt.compare(password, user.password);
+    if (isPassword) {
+      res.send("Login successful!!!");
+    } else {
+      throw new Error("paswrod ");
+    }
+  } catch (err) {
+    res.status(400).send("ERROR : " + err.message);
   }
 });
 
