@@ -48,12 +48,12 @@ const UserSchema = new mongoose.Schema(
     },
     photoUrl: {
       type: String,
-      default: "",
-      // validate(value) {
-      //   if (!validator.isURL(value)) {
-      //     throw new Error("Enter valid photo URL : " + value);
-      //   }
-      // },
+      default: "https://avatars.githubusercontent.com/u/183094986?v=4",
+      validate(value) {
+        if (!validator.isURL(value)) {
+          throw new Error("Enter valid photo URL : " + value);
+        }
+      },
     },
     about: {
       type: String,
