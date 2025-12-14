@@ -28,13 +28,14 @@ Modular backend architecture for maintainability
 Clone the repository
 git clone https://github.com/Rajat996-alt/DevSpark.git
 
-Navigate to backend folder
+Navigate to backend folder:
 cd DevSpark
 
-Install dependencies
+
+Install dependencies:
 npm install
 
-Start development server
+Start development server:
 npm run dev
 
 Server will run at:
