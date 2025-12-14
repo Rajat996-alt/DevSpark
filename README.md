@@ -25,6 +25,7 @@ Scalable REST APIs with optimized database queries
 Modular backend architecture for maintainability
 
 ▶️ Installation & Setup:
+
 Clone the repository
 git clone https://github.com/Rajat996-alt/DevSpark.git
 
